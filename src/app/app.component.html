@@ -1,2 +1,14 @@
 <h1>Game of life</h1>
-<canvas id="canvas"></canvas>
+
+<canvas id="canvas" width="800" height="800"></canvas>
+
+<div>
+    <div *ngFor="let row of grid; let rowIndex = index" class="grid-row">
+      <div *ngFor="let c of row; let colIndex = index" class="cell">
+        <cell [Col]="colIndex" [Row]="rowIndex" ></cell>
+      </div>
+    </div>
+</div>
+
+<button type="button" (click)="onNextGeneration()">Next generation</button>
+

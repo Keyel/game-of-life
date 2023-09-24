@@ -1,10 +1,10 @@
-import { AppCellComponent } from './app-cell.component';
+import { CellComponent } from './cell.component';
 
 describe('AppCellComponent', () => {
-  let component: AppCellComponent;
+  let component: CellComponent;
 
   beforeEach(() => {
-    component = new AppCellComponent();
+    component = new CellComponent();
   });
 
   it('should create', () => {
