@@ -18,6 +18,8 @@ export class AppComponent implements OnInit {
   }
 
   grid: CellInfo[][] = [];
+  intervalId: any; // Az intervallum azonosítója
+  isAutoGenerationRunning = false; // Mutatja, hogy az automatikus generáció fut-e
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
@@ -30,4 +32,22 @@ export class AppComponent implements OnInit {
   onNextGeneration = () => {
     this.lifeService.nextGeneration()
   }
+
+  // Az automatikus generációt indító függvény
+  startAutoGeneration = () => {
+    if (!this.isAutoGenerationRunning) {
+      this.isAutoGenerationRunning = true;
+      this.intervalId = setInterval(() => {
+        this.onNextGeneration();
+      }, 500); // 1000 ms = 1 másodperc
+    }
+  }
+
+  // Az automatikus generációt leállító függvény
+  stopAutoGeneration = () => {
+    if (this.isAutoGenerationRunning) {
+      this.isAutoGenerationRunning = false;
+      clearInterval(this.intervalId);
+    }
+  }  
 }

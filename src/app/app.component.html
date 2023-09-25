@@ -1,4 +1,4 @@
-<h1>Game of life</h1>
+<h1>Game of life ( John Horton Conway )</h1>
 
 <canvas id="canvas" width="800" height="800"></canvas>
 
@@ -11,4 +11,8 @@
 </div>
 
 <button type="button" (click)="onNextGeneration()">Next generation</button>
+
+<!-- Automatikus generáció gombok -->
+<button (click)="startAutoGeneration()" [disabled]="isAutoGenerationRunning">Automata generáció indítása</button>
+<button (click)="stopAutoGeneration()" [disabled]="!isAutoGenerationRunning">Automata generáció leállítása</button>
 
