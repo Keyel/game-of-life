@@ -4,6 +4,8 @@ import { LifeService } from 'src/app/services/life/life.service';
 import * as paper from 'paper';
 
 const CELL_SIZE = 15;
+const BLACK: paper.Color = new paper.Color(0,0,0);
+const WHITE: paper.Color = new paper.Color(1,1,1);
 
 @Component({
   selector: 'cell',
@@ -12,9 +14,6 @@ const CELL_SIZE = 15;
 export class CellComponent implements OnInit {
     @Input() Col: number = 0;
     @Input() Row: number = 0;
-
-    BLACK: paper.Color = new paper.Color(0,0,0);
-    WHITE: paper.Color = new paper.Color(1,1,1);
 
     path!: paper.Path.Rectangle
     constructor(private lifeService: LifeService) {
@@ -41,7 +40,7 @@ export class CellComponent implements OnInit {
     }
 
     draw = () => {
-        this.path.strokeColor = this.BLACK;
-        this.path.fillColor = this.lifeService.getGrid()[this.Row][this.Col].filled ? this.BLACK : this.WHITE;
+        this.path.strokeColor = BLACK;
+        this.path.fillColor = this.lifeService.getCellState(this.Row, this.Col) ? BLACK : WHITE;
     }
 }

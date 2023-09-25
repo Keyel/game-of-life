@@ -36,6 +36,8 @@ export class LifeService {
         this.redraw.emit()
     }
 
+    getCellState = (row: number, col: number): boolean => this.grid[row][col].filled    
+
     nextGeneration() {
         const newGrid: CellInfo[][] = []
 
@@ -60,7 +62,7 @@ export class LifeService {
         })).reduce( (acc, state) => acc + state, 0)
 
         if(neighbours < 2) return false; //starve
-        if(neighbours == 2) return this.grid[row][col].filled; //survive
+        if(neighbours == 2) return this.getCellState(row, col); //survive
         if(neighbours == 3) return true; //born
         return false; //too many
     }
