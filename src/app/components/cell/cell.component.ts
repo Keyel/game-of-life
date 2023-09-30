@@ -6,6 +6,7 @@ import * as paper from 'paper';
 const CELL_SIZE = 15;
 const BLACK: paper.Color = new paper.Color(0,0,0);
 const WHITE: paper.Color = new paper.Color(1,1,1);
+const RED: paper.Color = new paper.Color(1,0,0);
 
 @Component({
   selector: 'cell',
@@ -40,7 +41,13 @@ export class CellComponent implements OnInit {
     }
 
     draw = () => {
+        const state = this.lifeService.getCellState(this.Row, this.Col);
+        const generation = this.lifeService.getGenerationNumber();
+        const generationDelta = generation - state.generation;
         this.path.strokeColor = BLACK;
-        this.path.fillColor = this.lifeService.getCellState(this.Row, this.Col) ? BLACK : WHITE;
+        this.path.fillColor = 
+            !state.filled ? WHITE :
+            generationDelta < 1 ? RED :
+            BLACK;
     }
 }

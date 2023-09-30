@@ -9,6 +9,7 @@ const numCols = 50; // Oszlopok száma
   })
 export class LifeService {
     grid: CellInfo[][] = [];
+    generation: number = 0; //
 
     redraw = new EventEmitter<void>();    
 
@@ -20,7 +21,7 @@ export class LifeService {
         for (let i = 0; i < numRows; i++) {
           this.grid[i] = [];
           for (let j = 0; j < numCols; j++) {
-            this.grid[i][j] = { filled: false } as CellInfo;
+            this.grid[i][j] = { filled: false, generation: 0 } as CellInfo;
           }
         }        
     }
@@ -36,15 +37,21 @@ export class LifeService {
         this.redraw.emit()
     }
 
-    getCellState = (row: number, col: number): boolean => this.grid[row][col].filled    
+    getCellState = (row: number, col: number): CellInfo => this.grid[row][col]
+    getGenerationNumber = () => this.generation    
 
     nextGeneration() {
         const newGrid: CellInfo[][] = []
+        this.generation++;
 
         for (let i = 0; i < numRows; i++) {
             newGrid[i] = [];
             for (let j = 0; j < numCols; j++) {
-              newGrid[i][j] = { filled: this.compute(i, j) } as CellInfo;
+                const nextState = this.compute(i, j);
+                const oldState = this.grid[i][j].filled;
+                const oldGeneration = this.grid[i][j].generation;
+                const newGeneration = nextState === oldState ? oldGeneration : this.generation;
+                newGrid[i][j] = { filled: this.compute(i, j), generation: newGeneration } as CellInfo;
             }
         }
         
@@ -62,7 +69,7 @@ export class LifeService {
         })).reduce( (acc, state) => acc + state, 0)
 
         if(neighbours < 2) return false; //starve
-        if(neighbours == 2) return this.getCellState(row, col); //survive
+        if(neighbours == 2) return this.getCellState(row, col).filled; //survive
         if(neighbours == 3) return true; //born
         return false; //too many
     }
